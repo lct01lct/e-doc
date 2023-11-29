@@ -1,0 +1,14 @@
+.main-wrapper {
+  width: 100vw;
+  height: 100vh;
+
+  .index-module {
+    background: url('./img/beams-home@95.jpg') no-repeat center / contain;
+    .banner {
+      @apply text-slate-900 font-extrabold text-4xl sm:text-5xl lg:text-6xl !leading-tight tracking-tight text-center dark:text-white;
+    }
+    .introduce {
+      @apply mt-6 text-lg text-slate-600 text-center max-w-3xl mx-auto dark:text-slate-400;
+    }
+  }
+}

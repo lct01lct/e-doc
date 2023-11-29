@@ -1,0 +1,5 @@
+@layer components {
+  .main-container {
+    @apply container mx-auto max-w-6xl;
+  }
+}
