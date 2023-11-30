@@ -1,27 +1,24 @@
-import { PropsWithChildren, FC, cloneElement, ReactElement } from 'react';
+import { PropsWithChildren, FC, cloneElement, ReactElement, memo } from 'react';
 
 export interface EDocFormItem {
   label?: string;
   required?: boolean;
   name?: string;
-  rules?: [];
+  rules?: ((val: string) => boolean)[];
 }
 
-export const EDocFormItem: FC<PropsWithChildren<EDocFormItem>> = ({
-  children,
-  label,
-  required = false,
-  name,
-}) => {
-  const wrapperChildren = cloneElement(children as ReactElement, {
-    name,
-  });
+export const EDocFormItem: FC<PropsWithChildren<EDocFormItem>> = memo(
+  ({ children, label, required = false, name }) => {
+    const wrapperChildren = cloneElement(children as ReactElement, {
+      name,
+    });
 
-  return (
-    <div>
-      {required && <span className="absolute text-red-600">*</span>}
-      <label className="block text-gray-700 font-bold text-base pl-2">{label}</label>
-      <div className="relative pt-1">{wrapperChildren}</div>
-    </div>
-  );
-};
+    return (
+      <div>
+        {required && <span className="absolute text-red-600">*</span>}
+        <label className="block text-gray-700 font-bold text-base pl-2">{label}</label>
+        <div className="relative pt-1">{wrapperChildren}</div>
+      </div>
+    );
+  }
+);

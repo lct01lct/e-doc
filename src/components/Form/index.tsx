@@ -1,4 +1,4 @@
-import { FC, FormEvent, PropsWithChildren } from 'react';
+import { FC, FormEvent, PropsWithChildren, memo } from 'react';
 import { EDocFormItem } from './FormItem';
 
 export interface EDocFormProps {
@@ -10,7 +10,7 @@ type CompoundedComponent = FC<PropsWithChildren<EDocFormProps>> & {
   Item: typeof EDocFormItem;
 };
 
-export const EDocForm: CompoundedComponent = ({ title, children, onFinish }) => {
+const InternalForm: FC<PropsWithChildren<EDocFormProps>> = memo(({ title, children, onFinish }) => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
@@ -35,6 +35,8 @@ export const EDocForm: CompoundedComponent = ({ title, children, onFinish }) => 
       </form>
     </div>
   );
-};
+});
+
+export const EDocForm = InternalForm as CompoundedComponent;
 
 EDocForm.Item = EDocFormItem;

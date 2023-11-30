@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 export interface EDocInputProps {
   type?: 'email' | 'password' | 'text';
@@ -6,7 +6,7 @@ export interface EDocInputProps {
   name?: string;
 }
 
-export const EDocInput: FC<EDocInputProps> = ({ type = 'text', placeholder, name }) => {
+export const EDocInput: FC<EDocInputProps> = memo(({ type = 'text', placeholder, name }) => {
   return (
     <input
       type={type}
@@ -15,4 +15,4 @@ export const EDocInput: FC<EDocInputProps> = ({ type = 'text', placeholder, name
       placeholder={placeholder}
     />
   );
-};
+});

@@ -1,21 +1,24 @@
-import { FC, useRef } from 'react';
-import { EDocButton, EDocDialog, EDocDialogRefs, EDocForm, EDocInput } from '../../components';
+import { FC, memo } from 'react';
+import { EDocButton, EDocDialog, EDocForm, EDocInput } from '../../components';
+import { useNavigate } from 'react-router-dom';
 
 export interface CreateRoomDTO {
   username: string;
   secretKey?: string;
 }
 
-export const CreateRoomForm: FC = () => {
-  const dialogRef = useRef<EDocDialogRefs>(null);
+export const CreateRoomForm: FC = memo(() => {
   const ButtonTrigger = <EDocButton>快速开始</EDocButton>;
+  const navigate = useNavigate();
 
   const onCreateRoomButtonClick = (value: CreateRoomDTO) => {
     console.log(value);
+
+    navigate('/room');
   };
 
   return (
-    <EDocDialog reference={ButtonTrigger} ref={dialogRef}>
+    <EDocDialog reference={ButtonTrigger}>
       <EDocForm title="创建房间" onFinish={onCreateRoomButtonClick}>
         <EDocForm.Item label="昵称" name="username" required>
           <EDocInput placeholder="请输入昵称"></EDocInput>
@@ -31,4 +34,4 @@ export const CreateRoomForm: FC = () => {
       </EDocForm>
     </EDocDialog>
   );
-};
+});
