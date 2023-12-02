@@ -19,11 +19,7 @@ export const CreateRoomForm: FC = memo(() => {
 
   return (
     <EDocDialog reference={ButtonTrigger}>
-      <EDocForm
-        title="创建房间"
-        onFinish={onCreateRoomButtonClick}
-        onFailed={res => console.log(res)}
-      >
+      <EDocForm title="创建房间" onFinish={onCreateRoomButtonClick}>
         <EDocForm.Item
           label="昵称"
           name="username"

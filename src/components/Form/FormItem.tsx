@@ -30,7 +30,7 @@ export const EDocFormItem: FC<PropsWithChildren<EDocFormItem>> = memo(
   ({ children, label, required, name, rules, className }) => {
     const ctx = useContext(FormCtx);
     const [status, setStatus] = useState(true);
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState<string | undefined>(void 0);
     const formItemCtx = useMemo(() => {
       return {
         status: status,
@@ -86,7 +86,7 @@ export const EDocFormItem: FC<PropsWithChildren<EDocFormItem>> = memo(
 
               if (!resList.includes(false)) {
                 setStatus(true);
-                setMessage('');
+                setMessage(void 0);
                 resolve({ status: true, data: value });
               }
             });
