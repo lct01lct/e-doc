@@ -19,8 +19,17 @@ export const CreateRoomForm: FC = memo(() => {
 
   return (
     <EDocDialog reference={ButtonTrigger}>
-      <EDocForm title="创建房间" onFinish={onCreateRoomButtonClick}>
-        <EDocForm.Item label="昵称" name="username" required>
+      <EDocForm
+        title="创建房间"
+        onFinish={onCreateRoomButtonClick}
+        onFailed={res => console.log(res)}
+      >
+        <EDocForm.Item
+          label="昵称"
+          name="username"
+          required="请输入昵称！"
+          rules={[{ message: '昵称字符数不能超过10', rule: val => val.length <= 10 }]}
+        >
           <EDocInput placeholder="请输入昵称"></EDocInput>
         </EDocForm.Item>
         <EDocForm.Item label="房间秘钥" name="secretKey">
