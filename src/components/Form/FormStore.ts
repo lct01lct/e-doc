@@ -1,19 +1,24 @@
+import { Rule } from './FormItem';
+
 export interface Entity {
   name: string;
   value: any;
-  validator?: () => Promise<
-    | {
-        status: true;
-        data: any;
-      }
-    | {
-        status: false;
-        reason: {
-          field: string;
-          rule: { rule: (val: string) => boolean; message: string };
-        };
-      }
-  >;
+  validator?: <Data>() => Promise<ValidatorSucceededResult<Data> | ValidatorFailedResult>;
+}
+
+export interface ValidatorSucceededResult<Data> {
+  status: true;
+  data: Data;
+}
+
+export interface ValidatorFailedResult {
+  status: false;
+  reason: Reason;
+}
+
+export interface Reason {
+  field: string;
+  rule: Rule;
 }
 
 export class FormStore {
@@ -40,21 +45,26 @@ export class FormStore {
   }
 
   async onSubmit() {
-    return new Promise((resolve, reject) => {
-      this.fields.forEach(field => {
-        this.store[field]
-          .validator?.()
-          .then(null, result => {
-            if (result) {
-              if (result.status === false) {
-                reject(result);
-              }
+    return new Promise(async (resolve, reject) => {
+      let isAllPass = true;
+      const reasonList: Reason[] = [];
+
+      await Promise.all(
+        this.fields.map(async field => {
+          await this.store[field].validator?.().then(null, (result?: ValidatorFailedResult) => {
+            if (result?.status === false) {
+              isAllPass = false;
+              reasonList.push(result.reason);
             }
-          })
-          .finally(() => {
-            resolve(this.getAllFieldAndValue());
           });
-      });
+        })
+      );
+
+      if (isAllPass) {
+        resolve(this.getAllFieldAndValue());
+      } else {
+        reject(reasonList);
+      }
     });
   }
 }

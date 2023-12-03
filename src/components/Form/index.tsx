@@ -1,11 +1,11 @@
 import { FC, FormEvent, PropsWithChildren, createContext, memo } from 'react';
 import { EDocFormItem } from './FormItem';
-import { FormStore } from './FormStore';
+import { FormStore, Reason } from './FormStore';
 
 export interface EDocFormProps {
   title?: string;
   onFinish?: (value: any) => void;
-  onFailed?: (reason: any) => void;
+  onFailed?: (reasons: Reason[]) => void;
 }
 
 type CompoundedComponent = FC<PropsWithChildren<EDocFormProps>> & {
@@ -26,8 +26,8 @@ const InternalForm: FC<PropsWithChildren<EDocFormProps>> = memo(
         value => {
           onFinish?.(value);
         },
-        reason => {
-          onFailed?.(reason);
+        (reasons: Reason[]) => {
+          onFailed?.(reasons);
         }
       );
     };

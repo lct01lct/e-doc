@@ -16,7 +16,12 @@ export interface EDocFormItem {
   required?: string;
   className?: string;
   name?: string;
-  rules?: { rule: (val: string) => boolean | Promise<boolean>; message: string }[];
+  rules?: Rule[];
+}
+
+export interface Rule {
+  rule: (val: string) => boolean | Promise<boolean>;
+  message: string;
 }
 
 export interface IFormItemCtx {
@@ -58,7 +63,6 @@ export const EDocFormItem: FC<PropsWithChildren<EDocFormItem>> = memo(
 
         if (_rules.length) {
           entity.validator = async () => {
-            // eslint-disable-next-line no-async-promise-executor
             return new Promise(async (resolve, reject) => {
               const value = ctx.getFieldValue(name);
               let isPauseValidate = false;
@@ -66,6 +70,7 @@ export const EDocFormItem: FC<PropsWithChildren<EDocFormItem>> = memo(
               const resList = await Promise.all(
                 _rules.map(async item => {
                   const isPass = !!(value && (await item.rule(value)));
+
                   if (!isPass && !isPauseValidate) {
                     isPauseValidate = true;
                     setStatus(false);
@@ -95,16 +100,16 @@ export const EDocFormItem: FC<PropsWithChildren<EDocFormItem>> = memo(
 
         ctx.registerField(name, entity);
       }
-    }, [ctx, formItemCtx, name, required, rules, status]);
+    }, []);
 
     return (
-      <div>
+      <div className="mt-4">
         {required && <span className="absolute text-red-600">*</span>}
         <label className="block text-gray-700 font-bold text-base pl-2">{label}</label>
         <div className={'relative pt-1 ' + className}>
           <FormItemCtx.Provider value={formItemCtx}>{children}</FormItemCtx.Provider>
         </div>
-        <div className="error text-red-600 text-xs pl-2 h-4">{!status && message}</div>
+        <div className="error text-red-600 text-sm pt-1 pl-2 h-4">{!status && message}</div>
       </div>
     );
   }
