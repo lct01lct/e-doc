@@ -1,19 +1,15 @@
 import { FC, memo } from 'react';
 import { EDocButton, EDocDialog, EDocForm, EDocInput } from '../../components';
 import { useNavigate } from 'react-router-dom';
-
-export interface CreateRoomDTO {
-  username: string;
-  secretKey?: string;
-}
+import { CreateRoomDto, createRoomApi } from '@/apis';
 
 export const CreateRoomForm: FC = memo(() => {
   const ButtonTrigger = <EDocButton>快速开始</EDocButton>;
   const navigate = useNavigate();
 
-  const onCreateRoomButtonClick = (value: CreateRoomDTO) => {
-    console.log(value);
-
+  const onCreateRoomButtonClick = async (value: CreateRoomDto) => {
+    const { data } = await createRoomApi(value);
+    console.log(data);
     navigate('/room');
   };
 
