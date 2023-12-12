@@ -1,3 +1,4 @@
+import { setLocalRoomId, setLocalUserId } from '@/store';
 import { request } from './request';
 
 export interface CreateRoomDto {

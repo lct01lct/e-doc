@@ -1,3 +1,4 @@
+import { setLocalRoomId, setLocalUserId } from '@/store';
 import { request } from './request';
 
 export interface CreateRoomDto {
@@ -6,7 +7,7 @@ export interface CreateRoomDto {
 }
 
 export const createRoomApi = async (createRoomDto: CreateRoomDto) => {
-  return await request<{
+  const res = await request<{
     id: string;
     private: boolean;
     master: string;
@@ -14,6 +15,11 @@ export const createRoomApi = async (createRoomDto: CreateRoomDto) => {
     members: string[];
     ownId: string;
   }>({ url: '/room', method: 'post', data: createRoomDto });
+
+  // setLocalUserId(res.data.ownId);
+  // setLocalRoomId(res.data.id);
+
+  return res;
 };
 
 export interface UploadPdfFileDto {

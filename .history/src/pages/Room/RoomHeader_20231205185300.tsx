@@ -6,8 +6,7 @@ import { EDocButton } from '@/components';
 export const RoomHeader = () => {
   const navigate = useNavigate();
   const onChange = (file: File) => {
-    const formData = new FormData();
-    formData.append('file', file);
+    console.log(file);
   };
 
   return (

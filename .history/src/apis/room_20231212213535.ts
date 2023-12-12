@@ -6,13 +6,12 @@ export interface CreateRoomDto {
 }
 
 export const createRoomApi = async (createRoomDto: CreateRoomDto) => {
-  return await request<{
+  return request<{
     id: string;
     private: boolean;
     master: string;
     secretKey?: string;
     members: string[];
-    ownId: string;
   }>({ url: '/room', method: 'post', data: createRoomDto });
 };
 

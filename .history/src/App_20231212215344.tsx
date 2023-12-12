@@ -1,14 +1,12 @@
 import { RouterProvider } from 'react-router-dom';
 import { routers } from './routers';
-import { RoomInfoStore } from './store';
-import { useAxiosInterceptions } from './apis/request';
+import { RoomInfoContext, RoomInfoDefaultVal } from './store';
 
 function App() {
-  useAxiosInterceptions();
   return (
-    <RoomInfoStore>
+    <RoomInfoContext.Provider value={RoomInfoDefaultVal}>
       <RouterProvider router={routers}></RouterProvider>
-    </RoomInfoStore>
+    </RoomInfoContext.Provider>
   );
 }
 

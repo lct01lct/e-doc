@@ -2,22 +2,19 @@ import { FC, memo } from 'react';
 import { EDocButton, EDocDialog, EDocForm, EDocInput } from '../../components';
 import { useNavigate } from 'react-router-dom';
 import { CreateRoomDto, createRoomApi } from '@/apis';
-import { useRoomInfoStore } from '@/store';
 
 export const CreateRoomForm: FC = memo(() => {
+  const ButtonTrigger = <EDocButton>快速开始</EDocButton>;
   const navigate = useNavigate();
-  const { setLocalRoomId, setLocalUserId } = useRoomInfoStore();
 
   const onCreateRoomButtonClick = async (value: CreateRoomDto) => {
     const { data } = await createRoomApi(value);
     console.log(data);
-    setLocalRoomId(data.id);
-    setLocalUserId(data.ownId);
     navigate('/room');
   };
 
   return (
-    <EDocDialog reference={<EDocButton>快速开始</EDocButton>}>
+    <EDocDialog reference={ButtonTrigger}>
       <EDocForm title="创建房间" onFinish={onCreateRoomButtonClick}>
         <EDocForm.Item
           label="昵称"

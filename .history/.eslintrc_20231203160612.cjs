@@ -14,6 +14,5 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': ['off'],
     'react-hooks/exhaustive-deps': ['off'],
     'no-async-promise-executor': ['off'],
-    'react-refresh/only-export-components': ['off'],
   },
 };
