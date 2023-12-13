@@ -2,12 +2,22 @@ import { useNavigate } from 'react-router-dom';
 import LogoPng from './../../assets/img/logo.png';
 import { EDocUpload } from '@/components/Upload';
 import { EDocButton } from '@/components';
+import { uploadPdfFileApi } from '@/apis';
+import { useRoomInfoStore } from '@/store';
 
 export const RoomHeader = () => {
   const navigate = useNavigate();
-  const onChange = (file: File) => {
-    const formData = new FormData();
-    formData.append('file', file);
+  const roomInfoStore = useRoomInfoStore();
+
+  const onChange = async (file: File) => {
+    const { data } = await uploadPdfFileApi(file);
+    console.log(data);
+  };
+
+  const onExitBtnClick = () => {
+    navigate('/');
+    roomInfoStore.setLocalRoomId(null);
+    roomInfoStore.setLocalUserId(null);
   };
 
   return (
@@ -19,7 +29,7 @@ export const RoomHeader = () => {
         <div className="flex lg:flex-1">
           <div
             className="logo text-2xl font-bold flex items-center cursor-pointer"
-            onClick={() => navigate('/')}
+            onClick={onExitBtnClick}
           >
             <img src={LogoPng} className="h-10 w-10 mr-3" alt="" />
             e-doc
@@ -84,6 +94,9 @@ export const RoomHeader = () => {
           <EDocUpload onChange={onChange}>
             <EDocButton themeColor="white">上传pdf</EDocButton>
           </EDocUpload>
+          <EDocButton onClick={onExitBtnClick} className="ml-20" themeColor="black">
+            退出协作
+          </EDocButton>
         </div>
       </nav>
     </header>

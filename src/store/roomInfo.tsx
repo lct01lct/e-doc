@@ -12,17 +12,21 @@ export const useRoomInfoStore = () => {
   const roomInfoContext = useContext(RoomInfoContext);
 
   const setLocalUserId = (userId: string | null) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const _userId = userId ?? '';
-    roomInfoContext.setUserId(_userId);
-    localStorage.setItem('userId', _userId);
+    if (userId) {
+      roomInfoContext.setUserId(userId);
+      localStorage.setItem('userId', userId);
+    } else {
+      localStorage.removeItem('userId');
+    }
   };
 
   const setLocalRoomId = (roomId: string | null) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const _roomId = roomId ?? '';
-    roomInfoContext.setRoomId(_roomId);
-    localStorage.setItem('roomId', _roomId);
+    if (roomId) {
+      roomInfoContext.setRoomId(roomId);
+      localStorage.setItem('roomId', roomId);
+    } else {
+      localStorage.removeItem('roomId');
+    }
   };
 
   const getLocalUserId = () => {
@@ -37,8 +41,8 @@ export const useRoomInfoStore = () => {
 };
 
 export const RoomInfoStore: FC<PropsWithChildren<object>> = ({ children }) => {
-  const [userId, setUserId] = useState('');
-  const [roomId, setRoomId] = useState('');
+  const [userId, setUserId] = useState(localStorage.getItem('userId') ?? '');
+  const [roomId, setRoomId] = useState(localStorage.getItem('roomId') ?? '');
 
   return (
     <RoomInfoContext.Provider value={{ userId, setUserId, roomId, setRoomId }}>

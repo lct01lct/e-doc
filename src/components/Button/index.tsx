@@ -1,15 +1,15 @@
 import { FC, MouseEventHandler, PropsWithChildren, memo } from 'react';
 import { Size } from '../types';
 
-export interface EDocButtonProps {
+export interface EDocButtonProps
+  extends Omit<React.InputHTMLAttributes<HTMLButtonElement>, 'size'> {
   size?: Size;
   themeColor?: 'black' | 'white' | 'purple';
   type?: 'submit' | 'button';
-  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const EDocButton: FC<PropsWithChildren<EDocButtonProps>> = memo(
-  ({ children, themeColor = 'black', type = 'button', onClick }) => {
+  ({ children, themeColor = 'black', type = 'button', onClick, ...props }) => {
     const classNameList: Record<NonNullable<EDocButtonProps['themeColor']>, string> = {
       white: 'bg-white text-slate-900 border-slate-900 hover:bg-slate-100',
       black: 'bg-slate-900 text-white hover:bg-slate-700 ',
@@ -28,6 +28,7 @@ export const EDocButton: FC<PropsWithChildren<EDocButtonProps>> = memo(
         type={type}
         className={
           classNameList[themeColor] +
+          props.className +
           ` focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400 border-2`
         }
       >

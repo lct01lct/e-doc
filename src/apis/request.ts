@@ -5,9 +5,8 @@ const instance = axios.create({
   baseURL: '/api',
 });
 
-export const useAxiosInterceptions = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { setLocalRoomId, setLocalUserId, getLocalRoomId, getLocalUserId } = useRoomInfoStore();
+export const useRoomAxiosInterception = () => {
+  const { getLocalRoomId, getLocalUserId } = useRoomInfoStore();
 
   instance.interceptors.request.use(config => {
     const roomId = getLocalRoomId();

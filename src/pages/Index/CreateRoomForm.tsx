@@ -10,9 +10,10 @@ export const CreateRoomForm: FC = memo(() => {
 
   const onCreateRoomButtonClick = async (value: CreateRoomDto) => {
     const { data } = await createRoomApi(value);
-    console.log(data);
+
     setLocalRoomId(data.id);
     setLocalUserId(data.ownId);
+
     navigate('/room');
   };
 

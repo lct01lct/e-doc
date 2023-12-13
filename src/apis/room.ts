@@ -20,10 +20,16 @@ export interface UploadPdfFileDto {
   file: File;
 }
 
-export const uploadPdfFileApi = async (uploadPdfFileDto: UploadPdfFileDto) => {
+export const uploadPdfFileApi = async (file: File) => {
+  const formData = new FormData();
+  formData.append('file', file);
+
   return request({
-    url: '/upload',
+    url: '/room/upload',
     method: 'post',
-    data: uploadPdfFileDto,
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
 };
