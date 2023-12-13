@@ -14,7 +14,10 @@ export interface EDocUploadProps {
 export const EDocUpload: FC<PropsWithChildren<EDocUploadProps>> = ({ children, onChange }) => {
   const wrappedChlldren = cloneElement(children as ReactElement, {
     onClick() {
-      fileIptRef.current?.click();
+      if (fileIptRef.current) {
+        fileIptRef.current.value = '';
+        fileIptRef.current.click();
+      }
     },
   });
 
