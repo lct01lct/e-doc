@@ -13,8 +13,8 @@ export const useRoomAxiosInterception = () => {
     const userId = getLocalUserId();
 
     if (roomId && userId) {
-      config.headers.userId = userId;
-      config.headers.roomId = roomId;
+      config.headers['user-id'] = userId;
+      config.headers['room-id'] = roomId;
     }
     return config;
   });
